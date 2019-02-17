@@ -1,6 +1,6 @@
 #include <iostream>
 #include "hdr.h"
-//#include "bmp.h"
+#include "bmp.h"
 
 int main(int argc, char *argv[]) {
     Image<RGBFloat> img;
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     }
 
     float d = max - min;
-    Image<RGB> dst(img.width, img.height);
+    Image<BGR> dst(img.width, img.height);
 
     // HDR to LDR
     for(int i = 0; i < img.height * img.width; i++) {
@@ -31,12 +31,14 @@ int main(int argc, char *argv[]) {
         c.r = (c.r - min) / d;
         c.g = (c.g - min) / d;
         c.b = (c.b - min) / d;
-        img.lines[0][i] = c;
+
+        BGR bgr;
+        bgr.r = c.r * 255;
+        bgr.g = c.g * 255;
+        bgr.b = c.b * 255;
+        dst.lines[0][i] = bgr;
     }
 
-    std::cout << "max" << max << std::endl;
-    std::cout << "min" << min << std::endl;
-
-    //SaveBitmap("hdr_test.bmp", img);
+    SaveBitmap("hdr_test.bmp", dst);
     return 0;
 }
