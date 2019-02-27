@@ -22,6 +22,9 @@ int main(int argc, char *argv[]) {
         if (c.b < min) min = c.b;
     }
 
+    std::cout << "max: " << max << std::endl;
+    std::cout << "min: " << min << std::endl;
+
     float d = max - min;
     Image<BGR> dst(img.width, img.height);
 
